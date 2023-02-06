@@ -153,14 +153,15 @@ Signature
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: auto;
 
 
 color: #D8124B;
   }
 
   .typing-demo {
-	width: 36ch;
-	animation: typing 2s steps(15), blink .5s step-end infinite alternate;
+	width: 27ch;
+	animation: typing 2s steps(20), blink .5s step-end infinite alternate;
 	white-space: nowrap;
 	overflow: hidden;
 	border-right: 1px solid;
