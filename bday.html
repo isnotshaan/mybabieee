@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --text-color: #f6f1e6;
+        --drops-color: #231d1c;
+      }
+
+      body {
+        background: var(--text-color);
+        font-family: Georgia, serif;
+      }
+
+      .canvas {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .canvas--animated .puddle__letter {
+        -webkit-animation-play-state: running;
+        animation-play-state: running;
+      }
+
+      .puddle {
+        position: absolute;
+        display: flex;
+        transform: rotate(var(--r, 0deg))
+          translate(calc(-50% - var(--x, 0)), calc(-50% - var(--y, 0)));
+        top: 50%;
+        left: 50%;
+        color: var(--text-color);
+        font-size: 6vmin;
+        white-space: pre;
+      }
+      .puddle__letter {
+        transform: translateY(800px);
+        padding: 0.1em 0.2em;
+        margin: -0.1em -0.2em;
+        will-change: transform;
+        -webkit-animation: drop 0.8s var(--delay) ease-out forwards paused;
+        animation: drop 0.8s var(--delay) ease-out forwards paused;
+      }
+
+      .combined-puddles {
+        position: relative;
+        height: 100%;
+        z-index: -1;
+        filter: url(#drops-filter);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .combined-puddles .puddle__letter {
+        border-radius: 50%;
+        color: var(--drops-color);
+        background-color: currentColor;
+      }
+      .combined-puddles .puddle__letter--t-1 {
+        box-shadow: 0.005935927em 0.0110568751em 0 0.0803224265em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-2 {
+        box-shadow: 0.003032394em 0.0292955313em 0 0.070828333em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-3 {
+        box-shadow: 0.008609117em 0.0242405423em 0 0.2040563116em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-4 {
+        box-shadow: 0.0108857532em 0.0233352182em 0 0.1767642936em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-5 {
+        box-shadow: 0.018010074em 0.0291252157em 0 0.0367739422em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-6 {
+        box-shadow: 0.006397529em 0.0241143973em 0 0.3314518063em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-7 {
+        box-shadow: 0.0087301449em 0.0293763456em 0 0.234945066em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-8 {
+        box-shadow: 0.004302432em 0.0186096255em 0 0.3848446988em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-9 {
+        box-shadow: 0.019333863em 0.0094324272em 0 0.1483246616em currentColor;
+      }
+      .combined-puddles .puddle__letter--t-10 {
+        box-shadow: 0.0058981768em 0.0187694937em 0 0.3847018429em currentColor;
+      }
+
+      @-webkit-keyframes drop {
+        0% {
+          transform: translate(0, 100vh);
+        }
+        85% {
+          transform: translate(0, -0.15em);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      @keyframes drop {
+        0% {
+          transform: translate(0, 100vh);
+        }
+        85% {
+          transform: translate(0, -0.15em);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <div class="puddle" style="--x: 1.55em; --y: 3.73em">Roses are red</div>
+      <div class="puddle" style="--x: 1.5em; --y: 1.8em">Violets are blue</div>
+      <div class="puddle" style="--x: -1.5em; --y: -1.8em">My Dearest Puja</div>
+      <div class="puddle" style="--x: -1.3em; --y: -3.7em">
+        Happy Birthday to you :(
+      </div>
+    </div>
+    <script>
+        class Droppy {
+  DEFAULT_OPTIONS = {
+    canvasSelector: ".canvas",
+    textSelector: ".puddle",
+    letterClassName: "puddle__letter",
+    dropsClassName: "combined-puddles",
+    delayBetweenDrops: 95,
+    dropTypes: 10,
+    wordAngleRange: [-3, 3]
+  };
+
+  constructor(opts) {
+    this.opts = { ...this.DEFAULT_OPTIONS, ...opts };
+    this.$textSelector = document.querySelectorAll(this.opts.textSelector);
+    this.$canvas = document.querySelector(this.opts.canvasSelector);
+    this.init();
+  }
+
+  init() {
+    this.injectSVGFilter();
+    this.wrapLetters();
+    this.addDelayToEachLetter();
+    this.createDrops();
+    this.startAnimation();
+  }
+
+  getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  startAnimation() {
+    this.$canvas.classList.add("canvas--animated");
+  }
+
+  wrapLetters() {
+    this.$textSelector.forEach(($word) => {
+      const letters = Array.from($word.innerText).map((letter) => {
+        const dropType = this.getRandomInt(1, this.opts.dropTypes);
+        const className = `${this.opts.letterClassName} ${this.opts.letterClassName}--t-${dropType}`;
+        return `<div class="${className}">${letter}</div>`;
+      });
+      const angle = this.getRandomInt(
+        this.opts.wordAngleRange[0],
+        this.opts.wordAngleRange[1]
+      );
+
+      $word.style.cssText += `--r:${angle}deg`;
+      $word.innerHTML = letters.join("");
+    });
+  }
+
+  addDelayToEachLetter() {
+    const letters = document.querySelectorAll(`.${this.opts.letterClassName}`);
+
+    Array.from(letters, ($letter, index) => {
+      const delay = index * this.opts.delayBetweenDrops;
+      $letter.style.cssText += `--delay:${delay}ms`;
+    });
+  }
+
+  createDrops() {
+    const $drops = document.createElement("div");
+    $drops.className = this.opts.dropsClassName;
+
+    Array.from(this.$textSelector, ($word) =>
+      $drops.appendChild($word.cloneNode(true))
+    );
+
+    this.$canvas.appendChild($drops);
+  }
+
+  injectSVGFilter() {
+    const filter =
+      '<svg style="display:none;"><filter id="drops-filter" x="-50%" width="200%" y="-50%" height="200%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" /><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" result="cm" /></filter></svg>';
+    this.$canvas.insertAdjacentHTML("beforeend", filter);
+  }
+}
+
+new Droppy();
+
+    </script>
+  </body>
+</html>
