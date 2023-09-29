@@ -1,172 +1,139 @@
-/*
-Awesome Lea Verou's Heart Pattern Background
----- */
+@import url(https://fonts.googleapis.com/css?family=Lato:300italic);
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 
 body {
-	background: 
-
-	background-color:#FFFFFF;
-	background-size:100px 100px;
-	font-family: 'Lato', sans-serif;
+  background: #ee9ca7;
 }
 
-/*
-Valentine's Pen
----- */
+#cake {
+  display: block;
+  position: relative;
+  margin: -10em auto 0 auto;
 
-.centered {
-	width: 100%;
-	margin: 30vh auto;
-	text-align: center;
 }
 
-.centered h4 {
-	color: #FFFFFF;
-	font-size: 3em;
-	font-weight: bold;
-}
-
- input[type=checkbox]{
-  display:none;
- }
-
-label {
-	height: 40px;
-	width: auto;
-	padding: 10px 40px;
-	display: inline-block; 
-	cursor: pointer;
-	margin: 0 20px;
-	border-radius: 5px;
-	color: #FFFFFF;
-	font-size: 1.5em;
-	line-height: 1.5em;
-	text-transform: uppercase;
-	transition: all .25s ease-in-out;
-}
-
-label:hover {
-	transform: 	scale(1.1,1.1);
-}
-
-.no {
-	background-color: #D8124B;
-}
-
-.yes {
-	background-color: #12D890;
-}
-
-.answer--yes, .answer--no {
-	position: fixed;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	z-index: 9;
-	visibility: hidden;
-	opacity: 0;
-	transition: opacity .5s ease-in-out;
-}
-
-.answer--yes {
-	background-image: url('https://media.giphy.com/media/a3IWyhkEC0p32/giphy.gif');
-	background-repeat:no-repeat;
-	background-size: cover;
-}
-
-.answer--no {
-	background-image: url('https://media.giphy.com/media/QBEhpJHrv7poQ/giphy.gif');
-	background-repeat:no-repeat;
-	background-size: cover;
-}
-
-input.yes[type=checkbox]:checked ~ .answer--yes {
-  visibility: visible;
-	opacity: 100;
-}
-
-input.no[type=checkbox]:checked ~ .answer--no {
-  visibility: visible;
-	opacity: 100;
-}
-
-/*
-Signature
----- */
-
-.signature {
-	position: absolute;
-	margin: auto;
-	bottom: 0;
-	top: auto;
-	width: 95%;
-}
-
-.signature p{
-	text-align: center;
-	font-family: Helvetica, Arial, Sans-Serif;
-	font-size: 0.85em;
-	color: #FFFFFF;
-}
-
-.signature .much-heart{
-	display: inline-block;
-	position: relative;
-	margin: 0 4px;
-	height: 10px;
-	width: 10px;
-	background: #D8124B;
-	border-radius: 4px;
-	-ms-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.signature .much-heart::before, 
-.signature .much-heart::after {
-	  display: block;
-  content: '';
+/* ============================================== Candle
+*/
+.velas {
+  background: #ffffff;
+  border-radius: 10px;
   position: absolute;
-  margin: auto;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #D8124B;
-  top: -4px;
+  top: 228px;
+  left: 50%;
+  margin-left: -2.4px;
+  margin-top: -8.33333333px;
+  width: 5px;
+  height: 35px;
+  transform: translateY(-300px);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-animation: in 500ms 6s ease-out forwards;
+          animation: in 500ms 6s ease-out forwards;
 }
 
+.velas:after,
+.velas:before {
+  background: rgba(255, 0, 0, 0.4);
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2.22222222px;
+}
 
+.velas:after {
+  top: 25%;
+  left: 0;
+}
 
-.wrapper {
-	
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: auto;
+.velas:before {
+  top: 45%;
+  left: 0;
+}
 
+/* ============================================== Fire
+*/
+.fuego {
+  border-radius: 100%;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  margin-left: -2.6px;
+  width: 6.66666667px;
+  height: 18px;
+}
 
-color: #D8124B;
+.fuego:nth-child(1) {
+  -webkit-animation: fuego 2s 6.5s infinite;
+          animation: fuego 2s 6.5s infinite;
+}
+
+.fuego:nth-child(2) {
+  -webkit-animation: fuego 1.5s 6.5s infinite;
+          animation: fuego 1.5s 6.5s infinite;
+}
+
+.fuego:nth-child(3) {
+  -webkit-animation: fuego 1s 6.5s infinite;
+          animation: fuego 1s 6.5s infinite;
+}
+
+.fuego:nth-child(4) {
+  -webkit-animation: fuego 0.5s 6.5s infinite;
+          animation: fuego 0.5s 6.5s infinite;
+}
+
+.fuego:nth-child(5) {
+  -webkit-animation: fuego 0.2s 6.5s infinite;
+          animation: fuego 0.2s 6.5s infinite;
+}
+
+/* ============================================== Animation Fire
+*/
+@-webkit-keyframes fuego {
+  0%, 100% {
+    background: rgba(254, 248, 97, 0.5);
+    box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+    transform: translateY(0) scale(1);
   }
-
-  .typing-demo {
-	width: 27ch;
-	animation: typing 2s steps(20), blink .5s step-end infinite alternate;
-	white-space: nowrap;
-	overflow: hidden;
-	border-right: 1px solid;
-	font-family: monospace;
-	font-size: 4em;
+  50% {
+    background: rgba(255, 50, 0, 0.1);
+    box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+    transform: translateY(-20px) scale(0);
   }
-
-  @keyframes typing {
-	from {
-	  width: 0
-	}
+}
+@keyframes fuego {
+  0%, 100% {
+    background: rgba(254, 248, 97, 0.5);
+    box-shadow: 0 0 40px 10px rgba(248, 233, 209, 0.2);
+    transform: translateY(0) scale(1);
   }
-
-  @keyframes blink {
-	50% {
-	  border-color: transparent
-	}
+  50% {
+    background: rgba(255, 50, 0, 0.1);
+    box-shadow: 0 0 40px 20px rgba(248, 233, 209, 0.2);
+    transform: translateY(-20px) scale(0);
   }
+}
+@-webkit-keyframes in {
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes in {
+  to {
+    transform: translateY(0);
+  }
+}
+.text {
+  color: #8b6a60;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  text-align: center;
+}
+.text h1 {
+  font-size: 1.4em;
+}
